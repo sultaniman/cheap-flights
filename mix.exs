@@ -24,6 +24,8 @@ defmodule CheapFlights.MixProject do
       {:tesla, "~> 1.7"},
       {:sweet_xml, "~> 0.7.3"},
       {:typed_struct, "~> 0.3.0"},
+      {:plug_cowboy, "~> 2.6"},
+      {:jason, "~> 1.4"},
     ]
   end
 end

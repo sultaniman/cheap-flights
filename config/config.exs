@@ -9,7 +9,7 @@ config :cheap_flights,
 config :cheap_flights, CheapFlights.Scheduler,
   jobs: [
     # Update every minute
-    {"* * * * *", {CheapFlights.Aggregator, :update, []}}
+    {"*/5 * * * *", {CheapFlights.Aggregator, :update, []}}
   ]
 
 config :tesla, :adapter, Tesla.Adapter.Hackney

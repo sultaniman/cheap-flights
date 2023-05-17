@@ -1,6 +1,5 @@
 import Config
 
-
 config :cheap_flights,
   integrations: [
     CheapFlights.Integrations.BritishAirways,
@@ -10,7 +9,9 @@ config :cheap_flights,
 config :cheap_flights, CheapFlights.Scheduler,
   jobs: [
     # Update every minute
-    {"* * * * *", {CheapFlights.Aggregator, :update, []}},
+    {"* * * * *", {CheapFlights.Aggregator, :update, []}}
   ]
+
+config :tesla, :adapter, Tesla.Adapter.Hackney
 
 import_config "#{config_env()}.exs"

@@ -9,11 +9,13 @@ defmodule CheapFlightsTest do
 
   test "clients work as expected" do
     use_cassette "british airways client" do
-      assert CheapFlights.Integrations.BritishAirways.load_data() |> length() > 0
+      data = CheapFlights.Integrations.BritishAirways.load_data()
+      assert data.offers |> length() > 0
     end
 
     use_cassette "air france client" do
-      assert CheapFlights.Integrations.AirFrance.load_data() |> length() > 0
+      data = CheapFlights.Integrations.AirFrance.load_data()
+      assert data.offers |> length() > 0
     end
   end
 end

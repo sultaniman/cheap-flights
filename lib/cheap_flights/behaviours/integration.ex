@@ -1,4 +1,4 @@
-defmodule CheapFlights.Protocols.Integration do
+defmodule CheapFlights.Behaviours.Integration do
   @moduledoc false
   alias CheapFlights.Schemas.Dataset
 

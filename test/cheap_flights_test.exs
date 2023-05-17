@@ -7,12 +7,12 @@ defmodule CheapFlightsTest do
     :ok
   end
 
-  test "greets the world" do
-    use_cassette "british airways client can fetch flight data" do
+  test "clients work as expected" do
+    use_cassette "british airways client" do
       assert CheapFlights.Integrations.BritishAirways.load_data() |> length() > 0
     end
 
-    use_cassette "air france client can fetch flight data" do
+    use_cassette "air france client" do
       assert CheapFlights.Integrations.AirFrance.load_data() |> length() > 0
     end
   end

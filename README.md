@@ -5,7 +5,7 @@
 
 ## 🏃 Running
 
-To run you can just use `iex mix -S run` or if you have docker then please follow the commands below (it is just 33Mb)
+To run you can just use `iex mix -S run` or if you have docker then please follow the commands below (it is just ~34Mb)
 ```
 make docker-image
 docker run -p 127.0.0.1:8080:8080/tcp -it sultaniman/cheap-flights
@@ -42,6 +42,7 @@ http://localhost:8080/findCheapestOffer/?origin=MUC&destination=LHR&departureDat
 * [`typed_struct`](https://hex.pm/packages/typed_struct) - Used to define structs in a more convenient way,
 * [`plug_cowboy`](https://hex.pm/packages/plug_cowboy) - Used to implement API endpoints,
 * [`jason`](https://hex.pm/packages/jason) - JSON encoder,
+* [`cachex`](https://hex.pm/packages/cachex) - JSON encoder,
 * [`exvcr`](https://hex.pm/packages/exvcr) - Request recorder for tests.
 
 ## 🛠️ Configuration
@@ -55,7 +56,8 @@ Under `lib/cheap_flights` you can find multiple modules.
 Aggregator [`lib/cheap_flights/aggregator.ex`](./lib/cheap_flights/aggregator.ex) is a `GenServer` which is responsible
 
 1. To fetch flight data from integrations,
-2. Allows to lookup cheap flights,
+2. Allows to lookup cheap flights
+  a. To avoid unnecessary work Cachex is used to cache lookup results
 3. Re-fetch flight data
 
 ```mermaid
@@ -88,6 +90,14 @@ You can find them under the following modules
 │   ├── air_france.ex
 │   └── british_airways.ex
 └── integrations.ex
+```
+
+```mermaid
+flowchart TD
+    A(Integrations) --> |parallel fetch| B{British Airways}
+    A --> |parallel fetch| C{Air France}
+    B --> D(Process data)
+    C --> D
 ```
 
 [`lib/cheap_flights/integrations.ex`](./lib/cheap_flights/integrations.ex) is an entry point which

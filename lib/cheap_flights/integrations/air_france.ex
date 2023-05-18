@@ -6,7 +6,7 @@ defmodule CheapFlights.Integrations.AirFrance do
   import SweetXml
   alias CheapFlights.Schemas.Dataset
 
-  @provider "ba"
+  @provider "klm"
   @endpoint "https://gist.githubusercontent.com/kanmaniselvan/bb11edf031e254977b210c480a0bd89a/raw/ea9bcb65ba4bb2304580d6202ece88aee38540f8/afklm_response_sample.xml"
 
   @impl true

@@ -65,7 +65,7 @@ flowchart TD
     A(Aggregator) --> B{Start}
     B --> |:ok| C(Fetch data)
     A --> |:update| D(Re-fetch)
-    A --> |:lookup origin, dest, date| E(Search for cheapest flight)
+    A --> |origin, destination, date| E(Search for cheapest flight)
     C --> F(Parse data) --> G(Save state)
     D --> F(Parse data) --> G
 ```

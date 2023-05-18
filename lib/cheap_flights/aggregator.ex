@@ -2,6 +2,8 @@ defmodule CheapFlights.Aggregator do
   @moduledoc false
   use GenServer
   require Logger
+  alias CheapFlights.Helpers
+
   @module __MODULE__
 
   # Client API
@@ -14,6 +16,11 @@ defmodule CheapFlights.Aggregator do
     GenServer.cast(@module, :update)
   end
 
+  @spec lookup(String.t(), String.t(), String.t() | nil) :: any()
+  def lookup(origin, destination, date) do
+    GenServer.call(@module, {:lookup, origin, destination, date})
+  end
+
   # Server callbacks
   @impl true
   def init(_) do
@@ -21,8 +28,26 @@ defmodule CheapFlights.Aggregator do
     # with fetched and parsed data from flights data source
     # first item in the tuple will be offers
     # second is the list of flight segments to cross match
-    # third is a mapping of segments by segment id
     {:ok, {}, {:continue, :load_data}}
+  end
+
+  @impl true
+  def handle_call(
+        {:lookup, origin, destination, date},
+        _from,
+        {offers, segments} = state
+      ) do
+    # First lookup by origin and destination
+    filtered_segments =
+      segments
+      |> Helpers.lookup_segments(origin, destination, date)
+
+    cheapest_offer =
+      offers
+      |> Helpers.lookup_offers(filtered_segments)
+      |> Enum.at(0)
+
+    {:reply, cheapest_offer, state}
   end
 
   @impl true

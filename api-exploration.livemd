@@ -129,7 +129,6 @@ all_offers =
 ```
 
 ```elixir
-# sample - origin=BER&destination=LHR&departureDate=2019-07-17
 all_offers
 |> Enum.map(fn %{segment_ids: segment_ids} ->
   segment_ids
@@ -142,6 +141,7 @@ end)
 ## Time to search
 
 ```elixir
+# sample query string - origin=BER&destination=LHR&departureDate=2019-07-17
 origin = "MUC"
 dest = "LCY"
 date = "2021-09-28"

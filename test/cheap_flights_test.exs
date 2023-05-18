@@ -1,6 +1,7 @@
 defmodule CheapFlightsTest do
   use ExUnit.Case, async: true
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  alias CheapFlights.Aggregator
   alias CheapFlights.Integrations
   alias CheapFlights.Integrations.{AirFrance, BritishAirways}
   alias CheapFlights.Schemas.Offer
@@ -44,7 +45,7 @@ defmodule CheapFlightsTest do
     Application.put_env(:cheap_flights, :integrations, [BritishAirways])
 
     use_cassette "british airways client" do
-      {offers, segments, _segment_mapping} = Integrations.load_data()
+      {offers, segments} = Integrations.load_data()
       assert length(offers) > 0
       assert length(segments) > 0
 
@@ -55,6 +56,22 @@ defmodule CheapFlightsTest do
                offer_id: "OFFER1",
                currency: "EUR"
              }
+    end
+  end
+
+  test "aggregator server works as expected" do
+    Application.put_env(:cheap_flights, :integrations, [BritishAirways])
+
+    use_cassette "british airways client" do
+      assert Aggregator.lookup("MUC", "LCY", nil) == %CheapFlights.Schemas.Offer{
+               segment_ids: ["BA3292"],
+               provider: "ba",
+               price: 132.38,
+               offer_id: "OFFER1",
+               currency: "EUR"
+             }
+
+      assert is_nil(Aggregator.lookup("MUC", "LAX", nil))
     end
   end
 end

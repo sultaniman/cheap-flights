@@ -1,4 +1,6 @@
-# CheapFlights 🛫
+[![Elixir CI](https://github.com/sultaniman/cheap-flights/actions/workflows/elixir.yml/badge.svg)](https://github.com/sultaniman/cheap-flights/actions/workflows/elixir.yml)
+
+# 🛫 CheapFlights
 
 
 ## 🏃 Running

@@ -33,7 +33,7 @@ defmodule CheapFlightsTest do
       # Check if parsed result has expected shape
       assert data.offers |> Enum.at(0) == %Offer{
                segment_ids: ["SEG1", "SEG2"],
-               provider: "ba",
+               provider: "klm",
                price: 199.29,
                offer_id: "e935785a-84a1-4b1a-b578-5a84a16b0001",
                currency: "EUR"

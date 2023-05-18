@@ -4,7 +4,7 @@ defmodule CheapFlights.Schemas.Dataset do
   alias CheapFlights.Schemas.{FlightSegment, Offer}
 
   typedstruct do
-    @typedoc "Container struct which holds offers and flight segments"
+    @typedoc "Container struct which holds offers and flight segments for each provider"
     field :offers, [Offer.t()]
     field :flight_segments, [FlightSegment.t()]
   end

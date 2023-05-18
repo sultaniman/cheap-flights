@@ -34,6 +34,7 @@ defmodule CheapFlights.MixProject do
       {:typed_struct, "~> 0.3.0"},
       {:plug_cowboy, "~> 2.6"},
       {:jason, "~> 1.4"},
+      {:cachex, "~> 3.6"},
       {:exvcr, "~> 0.14.1", only: :test}
     ]
   end

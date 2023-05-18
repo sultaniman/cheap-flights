@@ -6,6 +6,9 @@ defmodule CheapFlights.Aggregator do
 
   @module __MODULE__
 
+  # 2 minute expiration
+  @cache_ttl_minutes 2
+
   # Client API
   def start_link(_) do
     GenServer.start_link(@module, {}, name: @module)
@@ -18,7 +21,17 @@ defmodule CheapFlights.Aggregator do
 
   @spec lookup(String.t(), String.t(), String.t() | nil) :: any()
   def lookup(origin, destination, date) do
-    GenServer.call(@module, {:lookup, origin, destination, date})
+    cache_key = Enum.join([origin, destination, date], "::")
+
+    case Cachex.get(:cheap_flights, cache_key) do
+      {:ok, nil} ->
+        cheapest_offer = GenServer.call(@module, {:lookup, origin, destination, date})
+        Cachex.put(:cheap_flights, cache_key, cheapest_offer, ttl: :timer.minutes(@cache_ttl_minutes))
+        cheapest_offer
+
+      {:ok, cheapest_offer} ->
+        cheapest_offer
+    end
   end
 
   # Server callbacks

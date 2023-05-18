@@ -78,6 +78,9 @@ config :cheap_flights, CheapFlights.Scheduler,
 config :tesla, :adapter, Tesla.Adapter.Hackney
 ```
 
+Cron schedule to re-fetch flight data is set to run every 5 minutes and will replace current
+in-memory state of [`Aggregator`](./lib/cheap_flights/aggregator.ex).
+
 ## 🚧 Testing
 
 To run tests you can use either `make test` or simply call `mix test`.

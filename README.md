@@ -42,10 +42,35 @@ http://localhost:8080/findCheapestOffer/?origin=MUC&destination=LHR&departureDat
 * [`typed_struct`](https://hex.pm/packages/typed_struct) - Used to define structs in a more convenient way,
 * [`plug_cowboy`](https://hex.pm/packages/plug_cowboy) - Used to implement API endpoints,
 * [`jason`](https://hex.pm/packages/jason) - JSON encoder,
-* [`cachex`](https://hex.pm/packages/cachex) - JSON encoder,
+* [`cachex`](https://hex.pm/packages/cachex) - Caching,
 * [`exvcr`](https://hex.pm/packages/exvcr) - Request recorder for tests.
 
 ## 🛠️ Configuration
+
+[`config`](./config/) consists of `dev`, `test` and `runtime` configurations and it let's you
+
+1. To configure available integrations,
+2. To set server port,
+3. Adjust CRON schedule to periodically re-fetch flight data from each integration source,
+4. Set Tesla HTTP client adapter.
+
+```ex
+config :cheap_flights,
+  integrations: [
+    CheapFlights.Integrations.BritishAirways,
+    CheapFlights.Integrations.AirFrance
+  ]
+
+config :cheap_flights, server_port: 8080
+
+config :cheap_flights, CheapFlights.Scheduler,
+  jobs: [
+    # Update every minute
+    {"*/5 * * * *", {CheapFlights.Aggregator, :update, []}}
+  ]
+
+config :tesla, :adapter, Tesla.Adapter.Hackney
+```
 
 ## 🏗️ Structure
 
@@ -80,6 +105,14 @@ Each client implements behaviour with a single callback
 
 Where `lib/cheap_flights/integrations` is an entry point which allows to visit and call
 each client in parallel then process and transform flight information.
+
+For each client I decided to hardcode endpoint url and provider code because it would create additional logic
+which I think is not necessary in the context of this assignment.
+
+```ex
+@provider "klm"
+@endpoint "https://gist.githubusercontent.com/kanmaniselvan/bb11edf031e254977b210c480a0bd89a/raw/ea9bcb65ba4bb2304580d6202ece88aee38540f8/afklm_response_sample.xml"
+```
 
 You can find them under the following modules
 
@@ -139,4 +172,7 @@ Example of [flight segment](./lib/cheap_flights/schemas/flight_segment.ex)
 
 [dataset.ex](./lib/cheap_flights/schemas/dataset.ex) is just a container type to keep the list of offers and flight segments.
 
-### REST API
+### ⚡️ REST API
+
+It is a simple `Plug.Route` implementation with a single endpoint `/findCheapestOffer` [router.ex](./lib/cheap_flights/api/router.ex)
+If for the given query parameters there are no results it returns `HTTP 404` otherwise will return relevant response.

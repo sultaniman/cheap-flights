@@ -26,7 +26,11 @@ defmodule CheapFlights.Aggregator do
     case Cachex.get(:cheap_flights, cache_key) do
       {:ok, nil} ->
         cheapest_offer = GenServer.call(@module, {:lookup, origin, destination, date})
-        Cachex.put(:cheap_flights, cache_key, cheapest_offer, ttl: :timer.minutes(@cache_ttl_minutes))
+
+        Cachex.put(:cheap_flights, cache_key, cheapest_offer,
+          ttl: :timer.minutes(@cache_ttl_minutes)
+        )
+
         cheapest_offer
 
       {:ok, cheapest_offer} ->

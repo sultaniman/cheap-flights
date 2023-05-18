@@ -79,6 +79,7 @@ defmodule CheapFlightsTest do
     use_cassette "british airways client" do
       Application.put_env(:cheap_flights, :integrations, [BritishAirways])
       Aggregator.update()
+
       assert Aggregator.lookup("MUC", "LCY", nil) == %CheapFlights.Schemas.Offer{
                segment_ids: ["BA3292"],
                provider: "ba",
@@ -91,6 +92,7 @@ defmodule CheapFlightsTest do
     use_cassette "air france client" do
       Application.put_env(:cheap_flights, :integrations, [AirFrance])
       Aggregator.update()
+
       assert Aggregator.lookup("MUC", "CDG", "2021-09-26") == %CheapFlights.Schemas.Offer{
                segment_ids: ["SEG1", "SEG2"],
                provider: "klm",

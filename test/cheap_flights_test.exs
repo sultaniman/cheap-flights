@@ -74,4 +74,30 @@ defmodule CheapFlightsTest do
       assert is_nil(Aggregator.lookup("MUC", "LAX", nil))
     end
   end
+
+  test "aggregator server update flight data works as expected" do
+    use_cassette "british airways client" do
+      Application.put_env(:cheap_flights, :integrations, [BritishAirways])
+      Aggregator.update()
+      assert Aggregator.lookup("MUC", "LCY", nil) == %CheapFlights.Schemas.Offer{
+               segment_ids: ["BA3292"],
+               provider: "ba",
+               price: 132.38,
+               offer_id: "OFFER1",
+               currency: "EUR"
+             }
+    end
+
+    use_cassette "air france client" do
+      Application.put_env(:cheap_flights, :integrations, [AirFrance])
+      Aggregator.update()
+      assert Aggregator.lookup("MUC", "CDG", "2021-09-26") == %CheapFlights.Schemas.Offer{
+               segment_ids: ["SEG1", "SEG2"],
+               provider: "klm",
+               price: 199.29,
+               offer_id: "e935785a-84a1-4b1a-b578-5a84a16b0001",
+               currency: "EUR"
+             }
+    end
+  end
 end

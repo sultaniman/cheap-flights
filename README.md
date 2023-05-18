@@ -11,8 +11,15 @@ Notes & assumptions:
 
 ## 🏃 Running
 
-To run you can just use `iex mix -S run` or if you have docker then please follow the commands below (it is just ~34Mb)
+Before you can run you need to install dependencies
+
+```sh
+mix deps.get
 ```
+
+To run you can just use `iex mix -S run` or if you have docker then please follow the commands below (it is just ~34Mb)
+
+```sh
 make docker-image
 docker run -p 127.0.0.1:8080:8080/tcp -it sultaniman/cheap-flights
 ```

@@ -76,6 +76,9 @@ config :tesla, :adapter, Tesla.Adapter.Hackney
 
 To run tests you can use either `make test` or simply call `mix test`.
 
+[`ExVCR`](https://hex.pm/packages/exvcr) is used to capture then mock HTTP requests if you need to update request mocks then please
+remove them using `mix vcr.delete --all` and re-run tests.
+
 ## 🧮 Code formatting
 
 To format code `mix format` is used can be called via makefile `make fmt`

@@ -47,7 +47,7 @@ defmodule CheapFlights.Api.Router do
     send_resp(
       conn,
       404,
-      "Oi bruv moo innit! https://twitter.com/PicturesFoIder/status/1655257717857046530?s=20"
+      "Oi bruv moo innit! Not fond! https://twitter.com/PicturesFoIder/status/1655257717857046530?s=20"
     )
   end
 end

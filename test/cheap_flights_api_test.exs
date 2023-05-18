@@ -24,7 +24,7 @@ defmodule CheapFlightsApiTest do
       conn = conn(:get, "/mooouv")
       conn = CheapFlights.Api.Router.call(conn, @router_opts)
       assert conn.status == 404
-      assert conn.resp_body =~ "Oi bruv moo innit!"
+      assert conn.resp_body =~ "Oi bruv moo innit! Not fond!"
     end
   end
 

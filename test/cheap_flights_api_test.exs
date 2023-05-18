@@ -1,10 +1,11 @@
 defmodule CheapFlightsApiTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
+  alias CheapFlights.Integrations.BritishAirways
+  alias CheapFlights.Aggregator
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   use Plug.Test
 
   setup do
-    Application.put_env(:cheap_flights, :integrations, [BritishAirways])
     ExVCR.Config.cassette_library_dir("test/fixtures/cassettes")
     :ok
   end
@@ -29,8 +30,8 @@ defmodule CheapFlightsApiTest do
   end
 
   test "API cheapest flight price lookup works" do
-    use_cassette "british airways client" do
-      conn = conn(:get, "/findCheapestOffer/?origin=MUC&destination=LCY&departureDate=2021-09-28")
+    use_cassette "air france client" do
+      conn = conn(:get, "/findCheapestOffer/?origin=MUC&destination=ORY&departureDate=2021-09-26")
       conn = CheapFlights.Api.Router.call(conn, @router_opts)
       assert conn.status == 200
 
@@ -38,8 +39,22 @@ defmodule CheapFlightsApiTest do
                Jason.encode!(%{
                  data: %{
                    cheapestOffer: %{
-                     airline: "ba",
-                     amount: 132.38
+                     airline: "klm",
+                     amount: 274.29
+                   }
+                 }
+               })
+
+      conn = conn(:get, "/findCheapestOffer/?origin=CDG&destination=LHR&departureDate=2021-09-26")
+      conn = CheapFlights.Api.Router.call(conn, @router_opts)
+      assert conn.status == 200
+
+      assert conn.resp_body ==
+               Jason.encode!(%{
+                 data: %{
+                   cheapestOffer: %{
+                     airline: "klm",
+                     amount: 199.29
                    }
                  }
                })
@@ -54,20 +69,6 @@ defmodule CheapFlightsApiTest do
                    cheapestOffer: %{
                      airline: "klm",
                      amount: 199.29
-                   }
-                 }
-               })
-
-      conn = conn(:get, "/findCheapestOffer/?origin=MUC&destination=LHR&departureDate=2021-09-28")
-      conn = CheapFlights.Api.Router.call(conn, @router_opts)
-      assert conn.status == 200
-
-      assert conn.resp_body ==
-               Jason.encode!(%{
-                 data: %{
-                   cheapestOffer: %{
-                     airline: "ba",
-                     amount: 156.38
                    }
                  }
                })

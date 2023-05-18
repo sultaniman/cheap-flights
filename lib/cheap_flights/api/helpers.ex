@@ -10,9 +10,22 @@ defmodule CheapFlights.Api.Helpers do
       destination = Map.get(params, "destination")
 
       case parse_date(Map.get(params, "departureDate")) do
-        {:error, _} = error -> error
-        nil -> {origin, destination, nil}
-        date_string -> {origin, destination, date_string}
+        {:error, _} = error ->
+          error
+
+        nil ->
+          {
+            origin |> to_string(),
+            destination |> to_string(),
+            nil
+          }
+
+        date_string ->
+          {
+            origin |> to_string(),
+            destination |> to_string(),
+            date_string |> to_string
+          }
       end
     end
   end

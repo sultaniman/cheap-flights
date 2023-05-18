@@ -96,6 +96,7 @@ To run tests you can use either `make test` or simply call `mix test`.
 remove them using `mix vcr.delete --all` and re-run tests.
 
 There is a known [issue](https://github.com/parroty/exvcr/issues/58) of `ExVCR` failing to mock requests withing spawned processes so some test might become flaky.
+All relevant commands are under `mix vcr.*` you can find them all in the official documentation of `ExVCR`.
 
 ## 🧮 Code formatting
 

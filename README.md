@@ -34,7 +34,7 @@ http://localhost:8080/findCheapestOffer/?origin=MUC&destination=LHR&departureDat
 
 ## 📚 Used libraries
 
-* [`quantum`](https://hex.pm/packages/quantum) - is used to periodically fetch data for flights,
+* [`quantum`](https://hex.pm/packages/quantum) - is used to periodically fetch data for flights using cron like interface,
 * [`tesla`](https://hex.pm/packages/tesla) - HTTP client,
 * [`sweet_xml`](https://hex.pm/packages/sweet_xml) - XML parser,
 * [`hackney`](https://hex.pm/packages/hackney) - Used as an adapter for Tesla,
@@ -71,6 +71,14 @@ config :cheap_flights, CheapFlights.Scheduler,
 
 config :tesla, :adapter, Tesla.Adapter.Hackney
 ```
+
+## 🚧 Testing
+
+To run tests you can use either `make test` or simply call `mix test`.
+
+## 🧮 Formatting
+
+To format code `mix format` is used.
 
 ## 🏗️ Structure
 

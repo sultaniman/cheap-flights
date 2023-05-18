@@ -4,7 +4,8 @@
 Mix.install([
   {:tesla, "~> 1.7"},
   {:sweet_xml, "~> 0.7.3"},
-  {:castore, "~> 1.0"}
+  {:castore, "~> 1.0"},
+  {:plug_cowboy, "~> 2.6"}
 ])
 ```
 
@@ -19,6 +20,8 @@ ba =
 klm =
   "https://gist.githubusercontent.com/kanmaniselvan/bb11edf031e254977b210c480a0bd89a/raw/ea9bcb65ba4bb2304580d6202ece88aee38540f8/afklm_response_sample.xml"
 ```
+
+## Simple transformer helper
 
 ```elixir
 defmodule FlightsHelper do
@@ -39,6 +42,8 @@ defmodule FlightsHelper do
 end
 ```
 
+## Save responses
+
 ```elixir
 ba_response =
   ba
@@ -51,6 +56,8 @@ klm_response =
   |> Tesla.get!()
   |> Map.get(:body)
 ```
+
+## Extract offers and flight segments
 
 ```elixir
 # British Airways
@@ -188,4 +195,34 @@ key =
 
 sorted_results |> Map.get(key)
 # Enum.at(sorted_results, 0)
+```
+
+## Plug.Conn.Query experiments
+
+```elixir
+alias Plug.Conn.Query
+Query.decode("origin=BER&destination=LHR&departureDate=2019-07-17")
+```
+
+```elixir
+defmodule DateMatcher do
+  def match(
+        <<year::binary-size(4), _d::binary-size(1), month::binary-size(2), _d2::binary-size(1),
+          day::binary-size(2), _rest::binary>>
+      ) do
+    IO.puts(year)
+    IO.puts(month)
+    IO.puts(day)
+  end
+
+  def match(_), do: :error
+end
+```
+
+```elixir
+DateMatcher.match("2022-07-17")
+IO.puts("------")
+DateMatcher.match("2019-07-17T00:00:00")
+IO.puts("------")
+DateMatcher.match(nil)
 ```

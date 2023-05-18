@@ -13,7 +13,8 @@ defmodule CheapFlights.Application do
       {
         Plug.Cowboy,
         scheme: :http, plug: CheapFlights.Api.Router, options: [port: server_port]
-      }
+      },
+      {Cachex, name: :cheap_flights}
     ]
 
     Logger.info("Server started at http://localhost:#{server_port}")

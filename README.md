@@ -88,6 +88,8 @@ To run tests you can use either `make test` or simply call `mix test`.
 [`ExVCR`](https://hex.pm/packages/exvcr) is used to capture then mock HTTP requests if you need to update request mocks then please
 remove them using `mix vcr.delete --all` and re-run tests.
 
+There is a known [issue](https://github.com/parroty/exvcr/issues/58) of `ExVCR` failing to mock requests withing spawned processes so some test might become flaky.
+
 ## 🧮 Code formatting
 
 To format code `mix format` is used can be called via makefile `make fmt`

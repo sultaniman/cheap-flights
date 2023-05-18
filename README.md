@@ -16,15 +16,21 @@ Once it is done you can check out one of the following links
 
 http://localhost:8080/findCheapestOffer/?origin=MUC&destination=LCY&departureDate=2021-09-28
 
-`{"data":{"cheapestOffer":{"airline":"ba","amount":132.38}}}`
+```json
+{"data":{"cheapestOffer":{"airline":"ba","amount":132.38}}}
+```
 
 http://localhost:8080/findCheapestOffer/?origin=MUC&destination=CDG&departureDate=2021-09-26
 
-`{"data":{"cheapestOffer":{"airline":"klm","amount":199.29}}}`
+```json
+{"data":{"cheapestOffer":{"airline":"klm","amount":199.29}}}
+```
 
 http://localhost:8080/findCheapestOffer/?origin=MUC&destination=LHR&departureDate=2021-09-28
 
-`{"data":{"cheapestOffer":{"airline":"ba","amount":156.38}}}`
+```json
+{"data":{"cheapestOffer":{"airline":"ba","amount":156.38}}}
+```
 
 ## 📚 Used libraries
 
@@ -84,7 +90,14 @@ You can find them under the following modules
 └── integrations.ex
 ```
 
+[`lib/cheap_flights/integrations.ex`](./lib/cheap_flights/integrations.ex) is an entry point which
+allows to fetch flight data with each client in parallel.
+
 ### ❄️ Data structures
+
+To represent offers and flight segments [`typed_struct`](https://hex.pm/packages/typed_struct) was used
+to conveniently define data structures to work with instead of just using plain dictionaries.
+Also this sets good mental model about data and the shape of it.
 
 ```
 schemas
@@ -93,6 +106,27 @@ schemas
 └── offer.ex
 ```
 
+Example of an [offer](./lib/cheap_flights/schemas/offer.ex)
+```ex
+%Offer{
+  segment_ids: ["BA3292"],
+  provider: "ba",
+  price: 132.38,
+  offer_id: "OFFER1",
+  currency: "EUR"
+}
+```
+
+Example of [flight segment](./lib/cheap_flights/schemas/flight_segment.ex)
+```ex
+%FlightSegment{
+  departure_date: "2021-09-28",
+  segment_id: "BA3292",
+  destination: "LCY",
+  origin: "MUC"
+}
+```
+
+[dataset.ex](./lib/cheap_flights/schemas/dataset.ex) is just a container type to keep the list of offers and flight segments.
+
 ### REST API
-
-

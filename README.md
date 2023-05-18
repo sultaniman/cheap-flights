@@ -2,6 +2,12 @@
 
 # 🛫 CheapFlights
 
+Notes & assumptions:
+
+  1. It is assumed that all external data sources will be available at all times,
+  2. `departureDate` is always is correct and is treated as simple string,
+  3. No complicated logic around guarantees present since this is not production grade solution,
+  4. No new endpoints will be added thus simple `Plug.Router` should suffice.
 
 ## 🏃 Running
 

@@ -76,9 +76,9 @@ config :tesla, :adapter, Tesla.Adapter.Hackney
 
 To run tests you can use either `make test` or simply call `mix test`.
 
-## 🧮 Formatting
+## 🧮 Code formatting
 
-To format code `mix format` is used.
+To format code `mix format` is used can be called via makefile `make fmt`
 
 ## 🏗️ Structure
 

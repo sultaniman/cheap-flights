@@ -11,4 +11,4 @@ fmt:
 
 .PHONY: test
 test:
-	MIX_ENV=test mix test --trace --cov
+	MIX_ENV=test mix test --trace --cover

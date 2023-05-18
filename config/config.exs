@@ -6,6 +6,8 @@ config :cheap_flights,
     CheapFlights.Integrations.AirFrance
   ]
 
+config :cheap_flights, server_port: 8080
+
 config :cheap_flights, CheapFlights.Scheduler,
   jobs: [
     # Update every minute

@@ -7,7 +7,7 @@ Notes & assumptions:
   1. It is assumed that all external data sources will be available at all times,
   2. `departureDate` is always is correct and is treated as simple string,
   3. No complicated logic around guarantees present since this is not production grade solution,
-  4. No new endpoints will be added thus simple `Plug.Router` should suffice.
+  4. No new endpoints will be added thus simple `Plug.Router` should suffice,
 
 ## 🏃 Running
 
@@ -206,3 +206,18 @@ Example of [flight segment](./lib/cheap_flights/schemas/flight_segment.ex)
 
 It is a simple `Plug.Route` implementation with a single endpoint `/findCheapestOffer` [router.ex](./lib/cheap_flights/api/router.ex)
 If for the given query parameters there are no results it returns `HTTP 404` otherwise will return relevant response.
+
+Regarding to notes about fault tolerance in my opinion since this solution has 4 components which can restart each on their own
+
+1. Aggregator - GenServer,
+2. Scheduler - Quantum scheduler,
+3. Cache - using Cachex,
+4. Router - API router
+
+So `:one_for_one` restart policy shall suffice.
+
+---------------------------------------------------------------------
+
+<p align="center">
+  ✨ 🍰 ✨&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>

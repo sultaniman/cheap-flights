@@ -1,5 +1,7 @@
 defmodule CheapFlights.Api.Helpers do
-  @moduledoc false
+  @moduledoc """
+  This module contains router helpers to validate params and return responses.
+  """
   alias CheapFlights.Schemas.Offer
 
   def validate_params(params) do

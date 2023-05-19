@@ -1,7 +1,5 @@
 defmodule CheapFlightsApiTest do
   use ExUnit.Case, async: false
-  alias CheapFlights.Integrations.BritishAirways
-  alias CheapFlights.Aggregator
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   use Plug.Test
 

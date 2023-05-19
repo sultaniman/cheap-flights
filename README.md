@@ -9,6 +9,9 @@ Notes & assumptions:
   3. No complicated logic around guarantees present since this is not production grade solution,
   4. No new endpoints will be added thus simple `Plug.Router` should suffice,
 
+For [initial expliration and discovery](./api-exploration.livemd) I used [Livebook](https://livebook.dev/)
+GitHub can render it as Markdown so you can safely preview code samples and the flow of discovery.
+
 ## 🏃 Running
 
 Before you can run you need to install dependencies

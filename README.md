@@ -78,7 +78,7 @@ config :cheap_flights, server_port: 8080
 
 config :cheap_flights, CheapFlights.Scheduler,
   jobs: [
-    # Update every minute
+    # Update every 5 minutes
     {"*/5 * * * *", {CheapFlights.Aggregator, :update, []}}
   ]
 
